@@ -1,50 +1,55 @@
-# xml-host
+# RSS Scheduler Server
 
-xml-host is a simple RSS Scheduler Server implementation designed for GitLab posts. This project allows users to schedule and manage RSS feeds specifically for GitLab content.
+24/7 server that monitors GitLab for scheduled RSS posts and publishes them automatically.
 
-## Features
+## 🚀 Features
 
-- **RSS Feed Scheduling**: Schedule and manage RSS feeds for GitLab posts.
-- **Node.js Implementation**: Built using Node.js for efficient server-side processing.
-- **Lightweight**: Minimal setup and easy to use.
+- **Always Running**: 24/7 monitoring even when users close their browsers
+- **Automatic Publishing**: Publishes posts when scheduled time arrives
+- **GitLab Integration**: Uses GitLab API for storage and publishing
+- **Free Hosting**: Deploys to free tiers on Koyeb/Cyclic
 
-## Installation
+## 📦 Deployment
 
-To get started with xml-host, follow these steps:
+### Koyeb (Recommended - Free Forever)
+1. Go to [koyeb.com](https://koyeb.com)
+2. Sign up with GitHub
+3. Create new App → Connect GitHub repository
+4. Deploy - runs 24/7 for free
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Bella288/xml-host.git
-   ```
+### Cyclic (Alternative)
+1. Go to [cyclic.sh](https://cyclic.sh)
+2. Connect GitHub repository
+3. Deploy - no configuration needed
 
-2. Navigate to the project directory:
-   ```bash
-   cd xml-host
-   ```
+## 🔧 How It Works
 
-3. Install the dependencies:
-   ```bash
-   npm install
-   ```
+1. **User schedules posts** via the web interface
+2. **Posts are saved** to GitLab `posts.json` file
+3. **This server checks every 15 seconds** for posts to publish
+4. **When publication time arrives**, posts are automatically published to the target RSS feed
+5. **Status updates** - posts are marked as "published" in the backup file
 
-## Usage
+## 📡 API Endpoints
 
-To start the server, run:
+- `GET /` - Server status
+- `GET /health` - Health check with system info
+
+## 🔐 Configuration
+
+The server monitors this GitLab repository:
+- Repository: `SerialDesignationN/xml-maker`
+- File: `posts.json`
+- Branch: `main`
+
+## 🛠️ Development
 
 ```bash
-node server.js
-```
+# Install dependencies
+npm install
 
-The server will start and listen for incoming requests.
+# Start server
+npm start
 
-## Contributing
-
-Contributions are welcome! If you have suggestions for improvements or want to report bugs, please open an issue or submit a pull request.
-
-## License
-
-This project does not currently have a specified license. Please check back later for updates.
-
-## Acknowledgments
-
-- Thanks to the contributors and the open-source community for their support.
+# Development
+npm run dev
