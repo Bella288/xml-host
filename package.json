@@ -1,0 +1,15 @@
+{
+  "name": "rss-scheduler-server",
+  "version": "1.0.0",
+  "description": "24/7 Server for RSS feed scheduling",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["rss", "gitlab", "scheduler", "server"],
+  "author": "RSS Scheduler",
+  "license": "MIT"
+}
