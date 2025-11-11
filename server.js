@@ -5,14 +5,14 @@ const http = require('http');
 const BACKUP_REPO = 'SerialDesignationN/xml-maker';
 const BACKUP_FILE_PATH = 'posts.json';
 const BACKUP_API_KEY = 'glpat-OjgrIQOn_MKztvDOASwn1G86MQp1OmkzdnF0Cw.01.1209n0gt2';
-const CHECK_INTERVAL = 15000; // 15 seconds
+const CHECK_INTERVAL = 10000; // 10 seconds
 const PORT = process.env.PORT || 3000;
 
 class RSSSchedulerServer {
     constructor() {
         this.startHttpServer();
         console.log('🚀 RSS Scheduler Server Started');
-        console.log('⏰ Monitoring GitLab for scheduled posts every 15 seconds...');
+        console.log('⏰ Monitoring GitLab for scheduled posts every 10 seconds...');
         this.startMonitoring();
     }
 
@@ -28,7 +28,7 @@ class RSSSchedulerServer {
                 }));
             } else {
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
-                res.end('RSS Scheduler Server - Always Running\n\nThis server monitors GitLab every 15 seconds for scheduled RSS posts and publishes them automatically when their time arrives.\n\nHealth check: /health');
+                res.end('RSS Scheduler Server - Always Running\n\nThis server monitors GitLab every 10 seconds for scheduled RSS posts and publishes them automatically when their time arrives.\n\nHeal[...]
             }
         });
 
@@ -38,7 +38,7 @@ class RSSSchedulerServer {
     }
 
     async startMonitoring() {
-        // Run immediately, then every 15 seconds
+        // Run immediately, then every 10 seconds
         while (true) {
             try {
                 await this.checkAndPublishPosts();
@@ -360,7 +360,6 @@ class RSSSchedulerServer {
 // Start the server
 new RSSSchedulerServer();
 
-// Handle graceful shutdown
 process.on('SIGTERM', () => {
     console.log('🛑 Shutting down gracefully...');
     process.exit(0);
