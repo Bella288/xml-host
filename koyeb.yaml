@@ -1,0 +1,16 @@
+name: rss-scheduler
+services:
+  - name: rss-scheduler
+    ports:
+      - port: 3000
+        http:
+          paths:
+            - path: /
+    instances:
+      type: nano
+      count: 1
+    routes:
+      - path: /
+    env:
+      - name: NODE_ENV
+        value: production
