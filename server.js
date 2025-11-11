@@ -146,14 +146,29 @@ class RSSSchedulerServer {
             // Commit to GitLab
             await this.commitToGitLab(urlParts, post.gitlabToken, newContent, `Publish: ${post.title}`);
             
-            // Mark as published
-            await this.updatePostStatus(post.id, 'published');
+            // Remove from backup JSON after successful publication
+            await this.removePostFromBackup(post.id);
             
-            console.log(`✅ Published: "${post.title}"`);
+            console.log(`✅ Published and removed from backup: "${post.title}"`);
             
         } catch (error) {
             console.error(`❌ Failed to publish "${post.title}":`, error.message);
             await this.updatePostStatus(post.id, 'error');
+        }
+    }
+
+    async removePostFromBackup(postId) {
+        try {
+            const posts = await this.getScheduledPosts();
+            // Remove the published post from the array
+            const updatedPosts = posts.filter(post => post.id !== postId);
+            
+            // Save the updated list back to GitLab
+            await this.updateBackupFile(updatedPosts);
+            
+            console.log(`🗑️ Removed post ${postId} from backup`);
+        } catch (error) {
+            console.error('❌ Error removing post from backup:', error.message);
         }
     }
 
@@ -304,7 +319,7 @@ class RSSSchedulerServer {
             const postData = JSON.stringify({
                 branch: 'main',
                 content: Buffer.from(JSON.stringify(posts, null, 2)).toString('base64'),
-                commit_message: `Update post status - ${new Date().toISOString()}`,
+                commit_message: `Update posts - ${new Date().toISOString()}`,
                 encoding: 'base64'
             });
 
